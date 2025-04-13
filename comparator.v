@@ -1,4 +1,4 @@
-
+`timescale 1ns/1ps
 module comparator (
     input [3:0] A,
     input [3:0] B,

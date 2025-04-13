@@ -1,0 +1,58 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_0000021479656b90 .scope module, "shift_register_q" "shift_register_q" 2 1;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "rst";
+    .port_info 1 /INPUT 1 "clk";
+    .port_info 2 /INPUT 1 "shift_left_enable_q";
+    .port_info 3 /INPUT 16 "Q";
+    .port_info 4 /INPUT 17 "A";
+    .port_info 5 /OUTPUT 16 "shift_out";
+o00000214797f6f98 .functor BUFZ 17, C4<zzzzzzzzzzzzzzzzz>; HiZ drive
+v0000021479657100_0 .net "A", 16 0, o00000214797f6f98;  0 drivers
+o00000214797f6fc8 .functor BUFZ 16, C4<zzzzzzzzzzzzzzzz>; HiZ drive
+v000002147965ef00_0 .net "Q", 15 0, o00000214797f6fc8;  0 drivers
+o00000214797f6ff8 .functor BUFZ 1, C4<z>; HiZ drive
+v0000021479656d20_0 .net "clk", 0 0, o00000214797f6ff8;  0 drivers
+o00000214797f7028 .functor BUFZ 1, C4<z>; HiZ drive
+v0000021479656dc0_0 .net "rst", 0 0, o00000214797f7028;  0 drivers
+o00000214797f7058 .functor BUFZ 1, C4<z>; HiZ drive
+v0000021479656e60_0 .net "shift_left_enable_q", 0 0, o00000214797f7058;  0 drivers
+v000002147965b430_0 .var "shift_out", 15 0;
+E_00000214797f6790 .event posedge, v0000021479656dc0_0, v0000021479656d20_0;
+    .scope S_0000021479656b90;
+T_0 ;
+    %wait E_00000214797f6790;
+    %load/vec4 v0000021479656dc0_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %pushi/vec4 0, 0, 16;
+    %assign/vec4 v000002147965b430_0, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/vec4 v0000021479656e60_0;
+    %cmpi/e 1, 0, 1;
+    %jmp/0xz  T_0.2, 4;
+    %load/vec4 v000002147965ef00_0;
+    %parti/s 15, 0, 2;
+    %load/vec4 v0000021479657100_0;
+    %parti/s 1, 16, 6;
+    %inv;
+    %concat/vec4; draw_concat_vec4
+    %assign/vec4 v000002147965b430_0, 0;
+T_0.2 ;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "shift_register_q.v";

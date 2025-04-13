@@ -9,7 +9,8 @@ module counter (
 always @(posedge(clk)) begin
     if(rst) begin
         count <= 4'b0; // Reset the counter to 0
-    end else begin
+    end 
+    else begin
         count <= count + 1; // Increment the counter
     end
 end

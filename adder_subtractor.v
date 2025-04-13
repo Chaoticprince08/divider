@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module adder_subtractor (
     input [16:0] A,
     input [15:0] divisor,

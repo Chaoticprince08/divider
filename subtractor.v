@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module subtractor (
     input [16:0] A,
     input [16:0] B,
