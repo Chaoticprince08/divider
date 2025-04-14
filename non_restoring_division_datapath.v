@@ -8,6 +8,7 @@
 `include "subtractor.v"
 `include "counter.v"
 `include "comparator.v"
+`include "comparator_1bit.v"
 `timescale 1ns/1ps
 
 
@@ -21,10 +22,13 @@ module non_restoring_division_datapath (
     input ld_A,
     input ld_Q,
     input shift_left_enable_a,
+    input select_add,
     input shift_left_enable_q,
     input count_enable,
+    input ld_rem_quotient,
     output [15:0] quotient,
     output [16:0] remainder,
+    output reg status_correctness_check,
     output reg done
 );
 
@@ -39,6 +43,7 @@ wire [16:0] adder_out;
 wire [16:0] subtractor_out;
 wire [16:0] mux_out_2;
 wire [15:0] mux_out_3;
+wire [16:0] mux_out_4;
 wire [3:0] count;
 wire complete;
 
@@ -64,7 +69,7 @@ register_a A_reg(
 register_q Q_reg(
     .rst(rst),
     .clk(clk),
-    .input_data(dividend),
+    .input_data(mux_out_3),
     .ld_register(ld_Q),
     .output_data(Q)
 );
@@ -79,10 +84,17 @@ shift_register_a shift_A_left(
     .shift_out(shift_register_out_a)
 );
 
+mux_2x1 mux4(
+    .select(select_add), //Give the proper Value here
+    .A(A),
+    .B(shift_register_out_a),
+    .out(mux_out_4)
+);
+
 
 //Addition
 adder adder1(
-    .A(shift_register_out_a),
+    .A(mux_out_4),
     .B({1'b0,divisor}),
     .sum(adder_out)
 );
@@ -141,7 +153,7 @@ register_a remainder_reg(
     .rst(rst),
     .clk(clk),
     .input_data(A),
-    .ld_register(complete),
+    .ld_register(ld_rem_quotient),
     .output_data(remainder)
 );
 
@@ -150,8 +162,15 @@ register_q quotient_reg(
     .rst(rst),
     .clk(clk),
     .input_data(Q),
-    .ld_register(complete),
+    .ld_register(ld_rem_quotient),
     .output_data(quotient)
+);
+
+//Comaring A[16] for correctness check
+comparator_1bit cmp1(
+    .A(shift_register_out_a[16]),
+    .B(1'b1),
+    .equal(status_correctness_check)
 );
 
 
