@@ -28,7 +28,7 @@ module non_restoring_division_datapath (
     input ld_rem_quotient,
     output [15:0] quotient,
     output [16:0] remainder,
-    output reg status_correctness_check,
+    output status_correctness_check,
     output reg done
 );
 

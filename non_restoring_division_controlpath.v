@@ -26,7 +26,7 @@ parameter [3:0] wait_a = 4'b0100;
 parameter [3:0] add_sub_wait = 4'b0101;
 parameter [3:0] shift_q = 4'b0110;
 parameter [3:0] wait_q = 4'b0111;
-parameter [3:0] correctnes_check = 4'b1000;
+parameter [3:0] correctness_check = 4'b1000;
 parameter [3:0] correct_add_state = 4'b1001;
 parameter [3:0] correct_add_wait_state = 4'b1010;
 parameter [3:0] display = 4'b1011;
@@ -79,7 +79,7 @@ always @(present_state or start) begin
         
         wait_q: begin
             if (done) begin
-                next_state = correctnes_check; // Transition back to idle state when done signal is high
+                next_state = correctness_check; // Transition back to idle state when done signal is high
             end 
             else begin
                 next_state = load_wait; // Move to load wait state
@@ -206,7 +206,7 @@ always @(present_state) begin
             shift_left_enable_q = 1'b0; // Disable left shift for Q during wait_q state
             ld_rem_quotient = 1'b0; // Disable loading of remainder and quotient during wait_q state
         end
-        correctnes_check: begin
+        correctness_check: begin
             count_enable = 1'b0; // Disable counter during correctness_check state
             select_A = 1'b1; // Select A register during correctness_check state
             select_Q = 1'b0; // Select Q register during correctness_check state
